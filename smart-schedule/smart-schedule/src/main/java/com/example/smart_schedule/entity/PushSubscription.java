@@ -1,5 +1,4 @@
-package com.example.smart_schedule.enumeration;
-import com.example.smart_schedule.entity.User;
+package com.example.smart_schedule.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 

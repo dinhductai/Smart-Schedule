@@ -1,7 +1,5 @@
-package com.example.smart_schedule.enumeration;
+package com.example.smart_schedule.entity;
 
-import com.example.smart_schedule.entity.Task;
-import com.example.smart_schedule.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
