@@ -1,6 +1,7 @@
 package com.example.smart_schedule.enumeration;
 
-public enum Role {
+public enum RoleName {
     ADMIN,
+    MANAGER,
     USER
 }
