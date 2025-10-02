@@ -1,5 +1,6 @@
 package com.example.smart_schedule.entity;
 
+import com.example.smart_schedule.enumeration.PriorityLevel;
 import com.example.smart_schedule.enumeration.TaskStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,19 +30,20 @@ public class Task {
     @Column(nullable = false)
     private TaskStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PriorityLevel priority;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    // Quan hệ nhiều-một: Nhiều task có thể được giao bởi một User (Manager)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigner_id", nullable = false)
-    private User assigner;
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
 
-    // Quan hệ nhiều-một: Nhiều task có thể được gán cho một User (Employee)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignee_id", nullable = false)
-    private User assignee;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 
 }

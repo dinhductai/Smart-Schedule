@@ -10,12 +10,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    // Tìm tất cả các task được giao cho một nhân viên cụ thể
-    List<Task> findAllByAssignee(User assignee);
-
-    // Tìm tất cả các task được giao bởi một quản lý cụ thể
-    List<Task> findAllByAssigner(User assigner);
-
     // Tìm các task có deadline nằm trong một khoảng thời gian nhất định (để gửi nhắc nhở)
     List<Task> findAllByDeadlineBetween(LocalDateTime start, LocalDateTime end);
 }
