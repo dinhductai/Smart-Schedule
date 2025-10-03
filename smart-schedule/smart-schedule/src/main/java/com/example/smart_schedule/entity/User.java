@@ -1,5 +1,7 @@
 package com.example.smart_schedule.entity;
 
+import com.example.smart_schedule.enumeration.AccountStatus;
+import com.example.smart_schedule.enumeration.RoleName;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Set;
@@ -25,6 +27,10 @@ public class User {
 
     @Column(name = "profile")
     private String profile;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_status", nullable = false, unique = true)
+    private AccountStatus accountStatus;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

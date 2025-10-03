@@ -13,6 +13,7 @@ import com.example.smart_schedule.repository.InvalidatedTokenRepository;
 import com.example.smart_schedule.repository.RoleRepository;
 import com.example.smart_schedule.repository.UserRepository;
 import com.example.smart_schedule.service.AuthenticationService;
+import com.example.smart_schedule.util.AuthenticationUtil;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
