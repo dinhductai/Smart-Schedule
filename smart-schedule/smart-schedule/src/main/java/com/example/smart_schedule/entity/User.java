@@ -3,11 +3,16 @@ package com.example.smart_schedule.entity;
 import com.example.smart_schedule.enumeration.AccountStatus;
 import com.example.smart_schedule.enumeration.RoleName;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "users")
 public class User {
 
@@ -16,7 +21,7 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", nullable = false, unique = true, length = 50)
+    @Column(name = "username", nullable = false, length = 50)
     private String username;
 
     @Column(name = "password", nullable = false)
