@@ -4,12 +4,15 @@ import com.example.smart_schedule.dto.request.IntrospectRequest;
 import com.example.smart_schedule.dto.request.LogoutRequest;
 import com.example.smart_schedule.dto.response.AuthenticationResponse;
 import com.example.smart_schedule.dto.response.IntrospectResponse;
+import com.example.smart_schedule.entity.Role;
 import com.example.smart_schedule.entity.User;
+import com.example.smart_schedule.enumeration.RoleName;
 import com.example.smart_schedule.exception.ExpiredJwtException;
 import com.example.smart_schedule.exception.InvalidatedToken;
 import com.example.smart_schedule.exception.UserNotFoundException;
 import com.example.smart_schedule.mapper.RoleMapper;
 import com.example.smart_schedule.repository.InvalidatedTokenRepository;
+import com.example.smart_schedule.repository.PermissionRepository;
 import com.example.smart_schedule.repository.RoleRepository;
 import com.example.smart_schedule.repository.UserRepository;
 import com.example.smart_schedule.service.AuthenticationService;
@@ -44,6 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     UserRepository userRepository;
     RoleRepository roleRepository;
     RoleMapper roleMapper;
+    PermissionRepository permissionRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
 
     @NonFinal
@@ -56,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) throws JOSEException {
         //tìm thông tin người dùng bằng email
-        User user = userRepository.getUserByEmail(authenticationRequest.getEmail())
+        User user = userRepository.findByEmail(authenticationRequest.getEmail())
                 .orElseThrow(()->new UserNotFoundException("User not found with email: "
                         + authenticationRequest.getEmail()));
         //nếu account bị block hay đã xóa thì thì từ chối
@@ -67,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
         //lấy các role thuộc user đang đăng nhập để phân quyền, vì một acc có thể có nhiều role
-        List<String> listRoleUser = userRepository.getUserRoleByUserId(user.getUserId());
+        List<RoleName> listRoleUser = userRepository.findRoleNamesByUserId(user.getUserId());
         //build scope
         String scope = buildScope(listRoleUser);
         //sinh token dựa vào data truyền vào
@@ -90,10 +94,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             //nếu gặp trường hợp token đã bị logout thì chỉ cần đổi thành false là đc,ko cần trả exception
             isInvalid = false;
         }
-        return IntrospectResponse.builder()
-                //check token sau tg hiện tại và đc xác thực
-                .valid(isInvalid)
-                .build();
+        return new IntrospectResponse(isInvalid);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     //hàm sinh token bằng HS512 và secret key
-    private String generateToken(Integer userId,String roleString,String email) throws JOSEException {
+    private String generateToken(Long userId,String roleString,String email) throws JOSEException {
         //thuật toán mã hóa header
         //dùng hs512 vì có độ dài lớn hơn, khó bị tấn công hơn, nhanh hơn so với thuật toán bất đối xứng
         //-> phù hợp RestApi, nơi server vừa tạo vừa xác thực,
@@ -167,10 +168,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     //hàm build scope cho token
-    private String buildScope(List<String> listRoleUser){
+    private String buildScope(List<RoleName> listRoleUser){
         StringBuilder scopeBuilder = new StringBuilder();
         // Thêm role vào đầu tiên
-        for (String role : listRoleUser) {
+        for (RoleName role : listRoleUser) {
             if (scopeBuilder.length() > 0) {
                 scopeBuilder.append(" "); // thêm dấu cách nếu không phải phần tử đầu
             }
@@ -179,9 +180,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         //gộp permission từ tất cả role, loại bỏ trùng lặp
         Set<String> uniquePermissions = new HashSet<>(); //set để loại bỏ trùng lặp
-        for (String role : listRoleUser) {
-            List<String> listPermissionByRole = roleMapper
-                    .toListPermissionByRoleName(roleRepository.getPermissionByRoleName(role));
+        for (RoleName role : listRoleUser) {
+            List<String> listPermissionByRole = roleRepository.findPermissionNameByRoleName(role);
             uniquePermissions.addAll(listPermissionByRole); //thêm tất cả permission, tự động loại trùng
         }
 

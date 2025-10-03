@@ -1,5 +1,6 @@
 package com.example.smart_schedule.config;
 import com.example.smart_schedule.dto.request.IntrospectRequest;
+import com.example.smart_schedule.dto.response.IntrospectResponse;
 import com.example.smart_schedule.exception.TokenInvalid;
 import com.example.smart_schedule.service.AuthenticationService;
 import com.example.smart_schedule.service.impl.AuthenticationServiceImpl;
@@ -36,10 +37,7 @@ public class CustomJWTDecoder implements JwtDecoder {
     public Jwt decode(String token) throws JwtException {
         try{
 //            check xem token còn hiệu lực ko
-            var checkToken = authenticationService.introspect(IntrospectRequest
-                    .builder()
-                    .token(token)
-                    .build());
+            IntrospectResponse checkToken = authenticationService.introspect(new IntrospectRequest(token));
             if(!checkToken.isValid()){
                 throw new TokenInvalid("Token invalid");
             }

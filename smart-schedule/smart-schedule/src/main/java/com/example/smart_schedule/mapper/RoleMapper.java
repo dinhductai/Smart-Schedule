@@ -52,13 +52,13 @@ public class RoleMapper {
         }
     }
 
-    public List<String> toListPermissionByRoleName(List<Tuple> listPermission) {
-        List<String> listPermissionName = listPermission.stream()
-                .map(tuple -> {
-                    return tuple.get("permissionName", String.class);
-                }).collect(Collectors.toList());
-        return listPermissionName;
-    }
+//    public List<String> toListPermissionByRoleName(List<Tuple> listPermission) {
+//        List<String> listPermissionName = listPermission.stream()
+//                .map(tuple -> {
+//                    return tuple.get("permissionName", String.class);
+//                }).collect(Collectors.toList());
+//        return listPermissionName;
+//    }
 
 
 }
