@@ -20,8 +20,8 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "full_name", nullable = false, length = 100)
-    private String fullName;
+    @Column(name = "email", nullable = false,unique = true)
+    private String email;
 
     @Column(name = "profile")
     private String profile;
