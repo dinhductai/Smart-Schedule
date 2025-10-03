@@ -1,4 +1,4 @@
-package com.example.smart_schedule.exception;
+package com.example.smart_schedule.exception.handle;
 
 public class ExpiredJwtException extends RuntimeException{
     public ExpiredJwtException(String message){

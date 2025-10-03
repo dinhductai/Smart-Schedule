@@ -2,7 +2,7 @@ package com.example.smart_schedule.util;
 
 import com.example.smart_schedule.entity.User;
 import com.example.smart_schedule.enumeration.AccountStatus;
-import com.example.smart_schedule.exception.UserNotFoundException;
+import com.example.smart_schedule.exception.handle.UserNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

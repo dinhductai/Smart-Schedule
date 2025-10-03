@@ -2,9 +2,8 @@ package com.example.smart_schedule.service.impl;
 
 import com.example.smart_schedule.dto.request.RegisterRequest;
 import com.example.smart_schedule.dto.response.UserResponse;
-import com.example.smart_schedule.entity.User;
-import com.example.smart_schedule.exception.DataAccessException;
-import com.example.smart_schedule.exception.UserAlreadyExistException;
+import com.example.smart_schedule.exception.handle.DataAccessException;
+import com.example.smart_schedule.exception.handle.UserAlreadyExistException;
 import com.example.smart_schedule.mapper.UserMapper;
 import com.example.smart_schedule.repository.UserRepository;
 import com.example.smart_schedule.service.UserService;

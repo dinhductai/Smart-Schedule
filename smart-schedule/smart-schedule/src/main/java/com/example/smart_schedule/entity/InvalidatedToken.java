@@ -1,4 +1,4 @@
-package com.example.smart_schedule.exception;
+package com.example.smart_schedule.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
