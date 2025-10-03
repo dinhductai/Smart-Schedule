@@ -95,27 +95,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDetailResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
-        return buildErrorResponse(ex.getMessage(), request, HttpStatus.NOT_FOUND);
+        return buildErrorResponse("User not found", request, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
     public ResponseEntity<ErrorDetailResponse> handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
-        return buildErrorResponse(ex.getMessage(), request, HttpStatus.CONFLICT);
+        return buildErrorResponse("Email already exist", request, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)
     public ResponseEntity<ErrorDetailResponse> handlePasswordIncorrectException(PasswordIncorrectException ex, WebRequest request) {
-        return buildErrorResponse(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse("Password incorrect", request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({PermissionNotFoundException.class, RoleNotFoundException.class})
     public ResponseEntity<ErrorDetailResponse> handleResourceNotFound(Exception ex, WebRequest request) {
         return buildErrorResponse(ex.getMessage(), request, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler({PermissionAlreadyExistException.class, EmailAlreadyInUseException.class})
-    public ResponseEntity<ErrorDetailResponse> handleResourceConflict(Exception ex, WebRequest request) {
-        return buildErrorResponse(ex.getMessage(), request, HttpStatus.CONFLICT);
     }
 
 
