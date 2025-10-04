@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorDetailResponse> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
-        return buildErrorResponse("Access denied", request, HttpStatus.FORBIDDEN);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ErrorDetailResponse> handleDataAccessException(DataAccessException ex, WebRequest request) {
-        return buildErrorResponse("Database error occurred: " + ex.getMessage(), request, HttpStatus.INTERNAL_SERVER_ERROR);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -72,22 +72,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GenericAuthenticationException.class)
     public ResponseEntity<ErrorDetailResponse> handleGenericAuthenticationException(GenericAuthenticationException ex, WebRequest request) {
-        return buildErrorResponse("Authentication failed: " + ex.getMessage(), request, HttpStatus.UNAUTHORIZED);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(JOSEException.class)
     public ResponseEntity<ErrorDetailResponse> handleJoseException(JOSEException ex, WebRequest request) {
-        return buildErrorResponse("Error processing JWT: " + ex.getMessage(), request, HttpStatus.INTERNAL_SERVER_ERROR);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(ParseException.class)
     public ResponseEntity<ErrorDetailResponse> handleParseException(ParseException ex, WebRequest request) {
-        return buildErrorResponse("Invalid token format: " + ex.getMessage(), request, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IntrospectAuthenticationException.class)
     public ResponseEntity<ErrorDetailResponse> handleIntrospectAuthenticationException(IntrospectAuthenticationException ex, WebRequest request) {
-        return buildErrorResponse("Token validation failed: " + ex.getMessage(), request, HttpStatus.UNAUTHORIZED);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.UNAUTHORIZED);
     }
 
 
@@ -95,17 +95,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDetailResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
-        return buildErrorResponse("User not found", request, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
     public ResponseEntity<ErrorDetailResponse> handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
-        return buildErrorResponse("Email already exist", request, HttpStatus.CONFLICT);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(PasswordIncorrectException.class)
     public ResponseEntity<ErrorDetailResponse> handlePasswordIncorrectException(PasswordIncorrectException ex, WebRequest request) {
-        return buildErrorResponse("Password incorrect", request, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({PermissionNotFoundException.class, RoleNotFoundException.class})
